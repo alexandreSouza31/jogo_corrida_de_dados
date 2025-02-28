@@ -1,74 +1,119 @@
-programa
-{
-	inclua biblioteca Util
-
-	funcao inicio()
-	{
-    cadeia nomePrograma ="jogo Corrida de Dados", versaoPrograma="1.0"
-	// objetivo: O jogador e o computador competem em uma corrida virtual. Cada um rola um dado virtual (geração de
-	// números aleatórios) para avançar em uma pista. O primeiro a alcançar ou ultrapassar a linha de chegada
-	// vence.
-    exibirCabecalho(nomePrograma,versaoPrograma)
-
-  //   1. Pista:
-  // ○ A pista é representada por uma linha numérica (ex.: de 0 a 30).
-    cadeia tamanhoPista[30]
+  programa
+  {
+    inclua biblioteca Util
+    inclua biblioteca Texto
+    inclua biblioteca Tipos
+    funcao inicio()
+    {
+        cadeia nomePrograma ="jogo Corrida de Dados", versaoPrograma="2.0",rolarDado=""
+        inteiro tamanhoPista=30
+        inteiro posicaoJogador=0
+        inteiro posicaoComputador=0
+      
+        para(inteiro i=1;i<=tamanhoPista;i++){
+        
+          escreva("\n \n Rodada "+ i+"\n")
+          escreva("Quando estiver pronto digite [Enter] para rolar o dado: \n")
+          leia(rolarDado)
     
-  // ○ O jogador e o computador começam na posição 0.
-    inteiro posicaoJogador=0
-    inteiro posicaoComputador=0
-
-  //   2. Turnos:
-  // ○ O jogador e o computador alternam turnos para rolar um dado (gerar um número aleatório
-  // entre 1 e 6).
+          inteiro numeroSorteadoJogador=Util.sorteia(1,6)
+          posicaoJogador+=numeroSorteadoJogador
+          inteiro pontosTotaisJogador=posicaoJogador
+          
+          inteiro numeroSorteadoComputador=Util.sorteia(1,6)
+          posicaoComputador+=numeroSorteadoComputador
+          inteiro pontosTotaisComputador=posicaoComputador
+    
+          escreva("...rolando dado do jogador... \t")
+          escreva("Dado do Jogador saiu: "+numeroSorteadoJogador+"\t \t")
+    
+          escreva("\n"+"...rolando dado do computador...")
+          escreva("Dado do Computador saiu: "+numeroSorteadoComputador+"\t")
+            
+      	escreva("\n \n")
+    
+      //■ Avanço extra: Se o competidor parar em uma posição especíca (ex.: 5, 10, 15), ele avança +3 casas.
+      //■ Recuo: Se o competidor parar em outra posição especíca (ex.: 7, 13, 20), ele recua -2 casas.
+            //incremento usuário
+        se(pontosTotaisJogador==5 ou pontosTotaisJogador==10 ou pontosTotaisJogador ==15){
+            inteiro pontoAvanco=4
+            pontosTotaisJogador+=pontoAvanco
+            posicaoJogador+=pontoAvanco
+            escreva("Avanço extra para você! Avance 4 casas! Irá para casa "+pontosTotaisJogador+"\n.")
+            //descremento usuário
+          } se(pontosTotaisJogador ==7 ou pontosTotaisJogador==13 ou pontosTotaisJogador==20){
+            inteiro pontoRecuo=2
+            pontosTotaisJogador-=pontoRecuo
+            posicaoJogador-=pontoRecuo
+            escreva("Recuo para você! Recue 2 casas! Irá para casa "+pontosTotaisJogador+"\n.")
+            //icremento pc
+          } se(pontosTotaisComputador ==5 ou pontosTotaisComputador==10 ou pontosTotaisComputador==15){
+            inteiro pontoAvanco=4
+            pontosTotaisComputador+=pontoAvanco
+            posicaoComputador+=pontoAvanco
+            escreva("Avanço extra para o Computador! Avançará 4 casas! Irá para casa "+pontosTotaisComputador+"\n.")
+            //decremento pc
+          } se(pontosTotaisComputador==7 ou pontosTotaisComputador==13 ou pontosTotaisComputador==20){
+            inteiro pontoRecuo=2
+            pontosTotaisComputador-=pontoRecuo
+            posicaoComputador-=pontoRecuo
+            escreva("Recuo para o Computador! Recuará 2 casas! Irá para casa "+pontosTotaisComputador+"\n.")
+            //incremento ambos
+          } se(pontosTotaisJogador==5 ou pontosTotaisJogador==10 ou pontosTotaisJogador ==15 e pontosTotaisJogador==pontosTotaisComputador){
+            inteiro pontoAvanco=4
+            pontosTotaisJogador+=pontoAvanco
+            posicaoJogador+=pontoAvanco
+            pontosTotaisComputador+=pontoAvanco
+            posicaoComputador+=pontoAvanco
+            escreva("Ambos avançam! Irá para casa "+pontosTotaisComputador+"\n.")
+            //decremento ambos
+          } se(pontosTotaisComputador==7 ou pontosTotaisComputador==13 ou pontosTotaisComputador==20 e pontosTotaisJogador==pontosTotaisComputador){
+            inteiro pontoRecuo=2
+             pontosTotaisJogador-=pontoRecuo
+             posicaoJogador-=pontoRecuo
+             pontosTotaisComputador-=pontoRecuo
+             posicaoComputador-=pontoRecuo
+             escreva("Ambos recuam! Irá para casa "+pontosTotaisJogador+"\n.")
+          }
   
-    cadeia rolarDado=""
-
-    para(inteiro i=1;i<=30;i++){
-    	
-    	// ○ O número gerado é somado à posição atual do competidor.
-    	inteiro numeroSorteadoJogador=Util.sorteia(1,6)
-    	
-    	posicaoJogador+=numeroSorteadoJogador
-    	escreva("Rodada "+ i+"\n")
-    	escreva("Quando estiver pronto digite [Enter] para rolar o dado: \n")
-
-    	leia(rolarDado)
- 	
-    	escreva("...rolando dado do jogador... \t")
-    	escreva("Dado do Jogador saiu: "+numeroSorteadoJogador+"\t \t")
-  
-    	escreva("\n"+"...rolando dado do computador...")
-    	inteiro numeroSorteadoComputador=Util.sorteia(1,6)
-    	escreva("Dado do Computador saiu: "+numeroSorteadoComputador+"\t")
-    	posicaoComputador+=numeroSorteadoComputador
-	      
-	escreva("\n \n")
-	se(posicaoJogador>posicaoComputador e posicaoJogador <= 30){
-		escreva("Jogador está "+(posicaoJogador-posicaoComputador)+" casa(s) à frente! \n")
-      // ○ O jogo exibe a posição atual do jogador e do computador após cada rodada.
-		escreva("\t Posição Jogador: "+posicaoJogador+"\n"+"\t Posição Computador: "+posicaoComputador+"\n \n")
-		
-	}senao se(posicaoJogador<posicaoComputador e posicaoComputador <= 30){
-		escreva("Computador está "+(posicaoComputador-posicaoJogador)+" casa(s) à frente! \n")
-		escreva("\n \t Posição Computador: "+posicaoComputador+"\n"+"\t Posição Jogador: "+posicaoJogador+"\n \n")
-	}senao se(posicaoJogador==posicaoComputador e posicaoJogador <= 30){
-		escreva("Jogador está empatado com Computador na casa "+(posicaoJogador)+"! \n")
-      // ○ O jogo exibe a posição atual do jogador e do computador após cada rodada.
-		escreva("\t Posição Jogador: "+posicaoJogador+"\t"+"Posição Computador: "+posicaoComputador+"\n \n")
-	}
-    	se(posicaoJogador >= 30 e posicaoJogador>posicaoComputador e posicaoJogador>=30){
-    		escreva("Jogador venceu!")
-    		retorne
-    	}senao se(posicaoComputador >= 30 ou posicaoJogador<posicaoComputador e posicaoComputador>=30){
-    		escreva("Computador venceu!")
-    		retorne
-    	}
+        //tipo e hierarquia de mensagem de pontos exibida
+       
+          se(pontosTotaisJogador<pontosTotaisComputador e pontosTotaisComputador <= tamanhoPista){
+            escreva("--------------------------------------------------------------","\n")
+            escreva("\t Computador está a "+(pontosTotaisComputador-pontosTotaisJogador)+" casa(s) à frente! \n")
+            escreva("\n \t \t Posição Computador: "+pontosTotaisComputador+"\n"+"\t \t Posição Jogador: "+pontosTotaisJogador+"\n \n")
+            escreva("---------------------------------------------------------------")
+          }senao se(pontosTotaisJogador>pontosTotaisComputador e pontosTotaisJogador <= tamanhoPista){
+		  escreva("--------------------------------------------------------------","\n")
+            escreva("\t você está a "+(pontosTotaisJogador-pontosTotaisComputador)+" casa(s) à frente! \n")
+            escreva("\n \t \t Posição Jogador: "+pontosTotaisJogador+"\n"+"\t \t Posição Computador: "+pontosTotaisComputador+"\n \n")
+            escreva("---------------------------------------------------------------")
+            
+          }senao se(pontosTotaisJogador==pontosTotaisComputador e pontosTotaisComputador <= tamanhoPista){
+              escreva("--------------------------------------------------------------","\n")
+              escreva("\t você está empatado com Computador na casa "+(pontosTotaisJogador)+"! \n")
+              escreva("\n \t \t Posição Jogador: "+pontosTotaisJogador+"\t \t "+"Posição Computador: "+pontosTotaisComputador+"\n \n")
+              escreva("---------------------------------------------------------------")
+          }
+          //tipo de mensagem de vencedor
+          se(pontosTotaisJogador >= 30 e pontosTotaisJogador>pontosTotaisComputador e pontosTotaisJogador>=30){
+            escreva("--------------------------------------------------------------","\n")
+            escreva("\n VOCÊ venceu! Placar final:")
+        	  escreva("\t Posição Jogador: "+pontosTotaisJogador+"\n"+"\t Posição Computador: "+pontosTotaisComputador+"\n \n")
+        	  escreva("---------------------------------------------------------------")
+            retorne
+          }senao se(pontosTotaisComputador >= 30 ou pontosTotaisJogador<pontosTotaisComputador e pontosTotaisComputador>=30){
+            escreva("--------------------------------------------------------------","\n")
+            escreva("\n COMPUTADOR venceu! Placar final:")
+            escreva("\n \t Posição Computador: "+pontosTotaisComputador+"\n"+"\t Posição Jogador: "+pontosTotaisJogador+"\n \n")
+            escreva("---------------------------------------------------------------")
+            retorne
+          }
+        }
     }
-	}
 
-  funcao exibirCabecalho(cadeia nomeApp,cadeia versaoApp){
-    limpa()
-	  escreva(nomeApp+" "+versaoApp+"\n \n")
+    funcao exibirCabecalho(cadeia nomeApp,cadeia versaoApp){
+      limpa()
+      escreva(nomeApp+" "+versaoApp+"\n \n")
+    }
   }
-}
